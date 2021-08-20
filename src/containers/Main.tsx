@@ -1,15 +1,16 @@
 import React, { VFC } from 'react';
-import { Typography, Paper } from '@material-ui/core';
+import { Button, Typography, Paper } from '@material-ui/core';
 import { Autocomplete } from '@material-ui/lab';
 import TextField from '@material-ui/core/TextField';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 import theme from '../lib/theme';
+import Graph from '../components/Graph';
 
 const useStyles = makeStyles(() =>
   createStyles({
-    root: {
+    page: {
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
@@ -52,37 +53,43 @@ const Main: VFC = () => {
   const [selectedYear, setYear] = React.useState(2000);
 
   return (
-    <div className={classes.root}>
-      <Typography className={classes.mainText}>If you invested</Typography>
-      <Autocomplete
-        options={tickers}
-        getOptionLabel={(option: { title: string }) => option.title}
-        disableClearable
-        PaperComponent={({ children }) => (
-          <Paper className={classes.tickerDropdown}>{children}</Paper>
-        )}
-        renderInput={(params) => (
-          <TextField
-            {...params} // eslint-disable-line react/jsx-props-no-spreading
-            variant="standard"
-            className={classes.tickerField}
-          />
-        )}
-      />
-      <Typography className={classes.mainText}>in</Typography>
-      <Select
-        value={selectedYear}
-        onChange={(event) => setYear(event.target.value as number)}
-        className={classes.yearField}
-      >
-        {Array(20)
-          .fill(0)
-          .map((year, index) => (
-            <MenuItem className={classes.yearMenuItem} value={index + 2000}>
-              {index + 2000}
-            </MenuItem>
-          ))}
-      </Select>
+    <div>
+      <div className={classes.page}>
+        <Typography className={classes.mainText}>If you invested</Typography>
+        <Autocomplete
+          options={tickers}
+          getOptionLabel={(option: { title: string }) => option.title}
+          disableClearable
+          PaperComponent={({ children }) => (
+            <Paper className={classes.tickerDropdown}>{children}</Paper>
+          )}
+          renderInput={(params) => (
+            <TextField
+              {...params} // eslint-disable-line react/jsx-props-no-spreading
+              variant="standard"
+              className={classes.tickerField}
+            />
+          )}
+        />
+        <Typography className={classes.mainText}>in</Typography>
+        <Select
+          value={selectedYear}
+          onChange={(event) => setYear(event.target.value as number)}
+          className={classes.yearField}
+        >
+          {Array(20)
+            .fill(0)
+            .map((year, index) => (
+              <MenuItem className={classes.yearMenuItem} value={index + 2000}>
+                {index + 2000}
+              </MenuItem>
+            ))}
+        </Select>
+        <Button>{'>>'}</Button>
+      </div>
+      <div className={classes.page}>
+        <Graph />
+      </div>
     </div>
   );
 };
